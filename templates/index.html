@@ -16,8 +16,11 @@
     <h1>Hello</h1>
     <ul>
     {%for post in object_list %}
+        {% ifequal post.language "Hindi"  %}
         <li><a href="{% url 'post-detail' post.pk %}">{{post.title}}</a> - {{post.author.first_name}}<br/>
         {{post.body}}</li>
+        {% endifequal %}
+    
     {% endfor %}
     <ul>
 {% endblock %}

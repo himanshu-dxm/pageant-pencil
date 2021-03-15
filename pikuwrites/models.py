@@ -6,6 +6,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User,on_delete=models.CASCADE)
     body = models.TextField()
+    language = models.CharField(max_length=255,default="Hindi")
     #image = models.ImageField()
     
     def __str__(self):
