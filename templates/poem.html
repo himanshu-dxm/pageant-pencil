@@ -1,11 +1,33 @@
 <!DOCTYPE HTML>
+{% load static %}
 <html>
-    <title>poem</title>
+    <title>{%block title%}{{post.title}}{% endblock %}</title>
     <head>
-        <link href="secondstyle.css" rel="stylesheet">
+        <link href="{% static 'secondstyle.css' %}" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="preconnect" href="https://fonts.gstatic.com">
         <link href="https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap" rel="stylesheet">
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('#share').click(function () {
+                    $('#myAlert').show('fade');
+
+                    setTimeout(function () {
+                        $('#myAlert').hide('fade');
+                    }, 2000);
+                });
+
+                $('#close').click(function () {
+                    $('#myAlert').hide('fade');
+                });
+            });
+
+        </script>
+
+        {% comment %} Custom JS {% endcomment %}
+        <script src={% static 'main.js' %} defer></script>
     </head>
     
     <body>
@@ -19,7 +41,7 @@
                             <img src="https://natureconservancy-h.assetsadobe.com/is/image/content/dam/tnc/nature/en/photos/Zugpsitze_mountain.jpg?crop=0,176,3008,1654&wid=4000&hei=2200&scl=0.752" alt="">
                         </div>
                         <div class="widget-image-info">
-                            <h1>title</h1>
+                            <h1>{{post.title}}</h1>
                             
                         </div>
                     </div>
@@ -28,33 +50,57 @@
             
         </div>
         <div class="area">
-            <h1 class="content">.......content ......<br>.......content .........<br>.<br>.......content .........<br>.<br>.......content .........<br>.<br>.......content .........<br>.<br>.......content .........<br>.<br>.......content .........<br>.<br>.......content .........<br>.<br>.......content .........<br>.......content .........<br>.......content .........</h1>
+            <h1 class="content">{{post.body}}<br></h1>
             <div class="container bootstrap snippets bootdey">
             
                 <div class=" bottom row">
                     <div class="wrapper">
-                        <input type="checkbox" class="heart-checkbox" id="heart-checkbox">
+                        
+                        <form action="{% url 'poem_like' pk=post.id %}" method="post">
+                            {% csrf_token %}
+                            <button type="submit" name="poem-id" value="{{ post.id }}" class="heart-checkbox" id="heart-checkbox">
+                                {% if like_status %}
+                                    Unlike
+                                {% else %}
+                                    Like
+                                {% endif %}
+                            </button>
+                        </form>
+                        
+                        {% comment %} <input type="checkbox" class="heart-checkbox" id="heart-checkbox"> {% endcomment %}
                         <label class="heart" for="heart-checkbox"></label>
 
-                        <span class="share"><i class="fa fa-paper-plane" aria-hidden="true"></i></span>
-                    </div>
-                    
-    
+                        <span id="share" class="share" link={{ request.build_absolute_uri }}><i class="fa fa-paper-plane" aria-hidden="true"></i>
+                            {% comment %} {{ request.build_absolute_uri }} {% endcomment %}
+                        </span>
+                        <div id="myAlert" class="alert alert-info" style="display: none;">
+                            <strong>Copied!</strong> To Clipboard
+                            <a id="close" href="" class="close">&times;</a>
+                        </div>  
+                        
+                        
+
+                    </div>    
                     
                 </div>
                 
-            </div>
-            
+            </div>            
               
         </div>
 
         <footer >
         
-            <span class="insta"><i class="fa fa-instagram" aria-hidden="true"></i></span>
+        <a href="https://www.instagram.com/priy_.an._ka/"><span class="insta"><i class="fa fa-instagram" aria-hidden="true"></i></span></a>
+        
+        <div class="footer-copyright text-center py-3"> 
+        <a href="{% url 'terms-and-conditions' %}">Terms and Conditions</a> 
+        | 
+        <a href="{% url 'privacy-policy' %}">Privacy Policy</a> 
+        
+        <br>© 2021
+        </div>
             
-            <div class="footer-copyright text-center py-3"> Copyright © 2021</div>
-                
-        </footer>
+    </footer>
         
     </body>
 </html>
