@@ -12,6 +12,7 @@ class Post(models.Model):
     title = models.CharField(max_length=255)
     author = models.ForeignKey(User,on_delete=models.CASCADE,related_name="Author")
     body = models.TextField()
+    updated_at = models.DateTimeField(auto_now=True)
     type = models.CharField(max_length=255,default="poem")
     likes = models.ManyToManyField(IpModel,related_name="poem_like",blank=True)
     language = models.CharField(max_length=255,default="hindi")

@@ -13,9 +13,9 @@ def index(request):
     poems = Post.objects.all().filter(type="poem")
     quotes = Post.objects.all().filter(type="quote")
     mydict = {
-        "poems" : poems,
-        "quotes" : quotes,
-        "object_list" : Post.objects.all()
+        "poems" : poems.order_by('-updated_at'),
+        "quotes" : quotes.order_by('-updated_at'),
+        "object_list" : Post.objects.all().order_by('updated_at')
     }
     return render(request,'index.html',context=mydict)
 
