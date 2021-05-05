@@ -1,1 +1,1 @@
-web: gunicorn  priyankaWrites.wsgi
+web: gunicorn priyankaWrites.wsgi
