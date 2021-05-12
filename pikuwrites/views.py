@@ -31,7 +31,7 @@ def privacyPolicy(request):
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWADED_FOR')
     if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0]
+        ip = x_forwarded_for.split(',')[x_forwarded_for.length-1]
     else:
         ip = request.META.get('REMOTE_ADDR')
     return ip
@@ -47,7 +47,7 @@ class PostDetailView(DetailView):
         
         like_status = False
         ip = get_client_ip(request)
-        if self.object.likes.filter(id=IpModel.objects.get(ip=ip).id).exists().first():
+        if self.object.likes.filter(id=IpModel.objects.get(ip=ip).id).exists():
             like_status = True
         else:
             like_status = False
