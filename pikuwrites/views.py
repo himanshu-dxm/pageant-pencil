@@ -47,7 +47,7 @@ class PostDetailView(DetailView):
         
         like_status = False
         ip = get_client_ip(request)
-        if self.object.likes.filter(id=IpModel.objects.get(ip=ip).id).exists():
+        if self.object.likes.filter(id=IpModel.objects.get(ip=ip).id).exists().first():
             like_status = True
         else:
             like_status = False
