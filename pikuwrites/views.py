@@ -51,7 +51,7 @@ class PostDetailView(DetailView):
             id=IpModel.objects.get(ip=ip).id
         except IpModel.DoesNotExist:
             id = None
-        id=IpModel.objects.get(ip=ip).id
+        # id=IpModel.objects.get(ip=ip).id
         if self.object.likes.filter(id=id).exists():
             like_status = True
         else:
